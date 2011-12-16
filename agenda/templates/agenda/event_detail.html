@@ -1,0 +1,40 @@
+{% extends "agenda/base.html" %}
+{% load comments %}
+{% load agenda %}
+
+{% block content %}
+<div id="accordion">
+    <!--
+    {% if next_event %}
+        <a href="{% url agenda-detail next_event.event_date.year next_event.event_date.month next_event.event_date.day next_event.slug %}">Next: {{ next_event }}</a> 
+    {% endif %} 
+    {% if previous_event %} 
+        <a href="{% url agenda-detail previous_event.event_date.year previous_event.event_date.month previous_event.event_date.day previous_event.slug %}">Previous: {{ previous_event }}</a> 
+    {% endif %}
+    -->
+    <h3 class="toggler"><a href="{% url agenda-detail event.event_date.year event.event_date.month event.event_date.day event.slug %}">{{ event.title }}</a> <span>on {{ event.event_date|date:"D d M" }}{% if event.start_time %} {{ event.start_time|time:"G:i" }}{% if event.end_time %} - {{ event.end_time|time:"G:i" }}{% endif %}{% endif %}</span> {% if event.facebook_event %}<a href="http://www.facebook.com/event.php?eid={{ event.facebook_event }}" target="_blank"><img src="{{ STATIC_URL }}imgs/facebook_icon.png" height="20px" style="border: none; float: right;" /></a>{% endif %}</h3>
+    <div class="element">
+        <div>
+            {{ event.description|safe }}
+            <br />
+        </div>
+    </div>
+    {% if event.allow_comments %}
+        {% get_comment_list for event as comment_list %}
+        {% if comment_list %}
+            <h3 class="toggler">Comments</h3>
+            <div class="element">
+                {% for comment in comment_list %}
+                    <p>{{ comment }}</p>
+                {% endfor %}
+                <br />
+            </div>
+        {% endif %}
+        <h3 class="toggler">Leave comment</h3>
+        <div class="element">
+            <p>{% render_comment_form for event %}</p>
+            <br />
+        </div>
+{% endif %}
+</div>
+{% endblock %}

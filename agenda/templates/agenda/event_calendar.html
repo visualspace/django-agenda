@@ -1,0 +1,23 @@
+<script language="JavaScript">
+    function loadPreviousMonth() {
+        $('#calendar').load('/event_calendar_json/{{ prev_year }}/{{ prev_month }}/');
+    }
+    function loadNextMonth() {
+        $('#calendar').load('/event_calendar_json/{{ next_year }}/{{ next_month }}/');
+    }
+</script>
+<a href="" onclick="javascript:loadPreviousMonth();return false;"><<</a> <a href="{% url agenda-archive-month year month %}">{{ month_name }} {{ year }}</a> <a href="" onclick="javascript:loadNextMonth();return false;">>></a>
+<table>
+<tr>
+{% for day in headers %}
+<th>{{ day|date:"D"|slice:":2" }}</th>
+{% endfor %}
+</tr>
+{% for week in calendar %}
+<tr>
+{% for day in week %}
+<td{% if not day.in_month %} class="cal_not_in_month"{% endif %}>{% if day.event %}<a href="{% url agenda-archive-day day.day.year day.day.month day.day.day %}">{{ day.day|date:"j" }}</a>{% else %}{{ day.day|date:"j" }}{% endif %}</td>
+{% endfor %}
+</tr>
+{% endfor %}
+</table>

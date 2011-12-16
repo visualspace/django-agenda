@@ -1,0 +1,20 @@
+{% extends "agenda/base.html" %}
+{% load comments %}
+{% load agenda %}
+
+{% block content %}
+    <div class="events">
+        <h1>{% if day %}{{ day|date:"F j, Y" }}{% else %}{% if month %}{{ month|date:"F Y" }}{% else %}{% if year %}{{ year }}{% endif %}{% endif %}{% endif %}</h1>
+        {% for event in event_list %}
+            <div id="accordion">
+                <h3 class="toggler"><a href="{% url agenda-detail event.event_date.year event.event_date.month event.event_date.day event.slug %}">{{ event.title }}</a> <span>on {{ event.event_date|date:"D d M" }}{% if event.start_time %} {{ event.start_time|time:"G:i" }}{% if event.end_time %} - {{ event.end_time|time:"G:i" }}{% endif %}{% endif %}</span> {% if event.facebook_event %}<a href="http://www.facebook.com/event.php?eid={{ event.facebook_event }}" target="_blank"><img src="{{ STATIC_URL }}imgs/facebook_icon.png" height="20px" style="border: none; float: right;" />{% endif %}</a></h3>
+                <div class="element">
+                    <div>
+                        {{ event.description|safe }}
+                        <br />
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
