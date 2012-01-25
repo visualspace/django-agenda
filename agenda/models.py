@@ -14,6 +14,12 @@ from django.contrib.sites.managers import CurrentSiteManager
 
 from django.contrib.sitemaps import ping_google
 
+from metadata.models import DateAbstractBase, \
+                            TitleAbstractBase, \
+                            SlugAbstractBase
+
+from sorl.thumbnail import ImageField
+
 class Location(models.Model):
     class Meta:
         verbose_name = _('location')
@@ -93,6 +99,19 @@ class Event(models.Model):
             except Exception:
                 import logging
                 logging.warn('Google ping on save did not work.')
+
+class EventImage(TitleAbstractBase):
+    """ Image related to an event. """
+    
+    event = models.ForeignKey(Event)
+    image = ImageField(verbose_name=_('image'), upload_to='event_images')
+
+
+class EventFile(TitleAbstractBase):
+    """ File related to an event. """
+    
+    event = models.ForeignKey(Event)
+    file = models.FileField(verbose_name=_('file'), upload_to='event_files')
 
 class Calendar(models.Model):
     name = models.CharField(_('name'), max_length=100, blank=True, null=True)
