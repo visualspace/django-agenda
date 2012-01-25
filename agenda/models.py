@@ -74,6 +74,8 @@ class Event(models.Model):
     
     location = models.ForeignKey(Location, blank=True, null=True)
 
+    image = ImageField(verbose_name=_('image'), upload_to='event_images', blank=True, null=True)
+
     description = models.TextField(_('description'))
 
     calendar = models.ForeignKey("Calendar", blank=True, null=True, related_name='events')

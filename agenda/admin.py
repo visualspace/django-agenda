@@ -108,7 +108,7 @@ class EventAdmin(TinyMCEAdminMixin, MediaAdminMixin, ExtendibleModelAdminMixin, 
     
     search_fields = ('title', 'location__title', 'author__username', 'author__first_name', 'author__last_name', 'calendar')        
 
-    fieldsets =  ((None, {'fields': ['title', 'slug', 'event_date', 'start_time', 'end_time', 'location', 'description', 'calendar',]}),
+    fieldsets =  ((None, {'fields': ['title', 'slug', 'event_date', 'start_time', 'end_time', 'location', 'image', 'description', 'calendar',]}),
                   (_('Advanced options'), {'classes' : ('collapse',),
                                            'fields'  : ('publish_date', 'publish', 'sites', 'author', 'allow_comments')}))
     
