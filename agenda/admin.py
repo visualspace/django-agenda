@@ -26,8 +26,10 @@ class MediaAdminMixin(object):
         image_list = []
         for obj in images:
             image = obj.image
-            if settings.PAGEIMAGE_SIZE:
-                image = get_thumbnail(image, settings.PAGEIMAGE_SIZE)
+            image = obj.image
+            size = getattr(settings, 'PAGEIMAGE_SIZE', None)
+            if size:
+                image = get_thumbnail(image, size)
         
             image_list.append((unicode(obj), image.url))
         
